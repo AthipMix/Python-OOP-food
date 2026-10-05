@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food OOP</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>🍽️ Food Menu</h1>
+            <p>Python OOP Food</p>
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <h2>รายการอาหาร</h2>
+
+
+        <div class="food-container">
+
+            {% for food in foods %}
+
+            <div class="food-card">
+
+                <!-- Food Information -->
+
+                <div class="food-header">
+
+                    <h3>
+                        {{ food.nameTh }}
+                    </h3>
+
+                    <span>
+                        {{ food.category }}
+                    </span>
+
+                </div>
+
+
+                <!-- Recipe List -->
+
+                <div class="recipe-section">
+
+                    <h4>ส่วนผสม</h4>
+
+
+                    {% if food.recipeList %}
+
+                    {% for recipe in food.recipeList %}
+
+                    <div class="recipe-item">
+
+                        <span>
+                            {{ recipe.recipeName }}
+                        </span>
+
+                        <span>
+                            {{ recipe.quantity }}
+                            {{ recipe.unitName }}
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p>ยังไม่มีส่วนผสม</p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Add Recipe -->
+
+                <div class="add-recipe">
+
+                    <h4>เพิ่มส่วนผสม</h4>
+
+                    <form action="{{ url_for('add_recipe', food_id=loop.index0) }}" method="POST">
+
+                        <div class="form-group">
+
+                            <label>
+                                ชื่อส่วนผสม
+                            </label>
+
+                            <input type="text" name="recipeName" placeholder="เช่น หมูสับ" required>
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label>
+                                    จำนวน
+                                </label>
+
+                                <input type="number" name="quantity" step="0.01" min="0" placeholder="เช่น 100"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    หน่วย
+                                </label>
+
+                                <input type="text" name="unitName" placeholder="เช่น กรัม" required>
+
+                            </div>
+
+                        </div>
+
+
+                        <button type="submit">
+                            + เพิ่มส่วนผสม
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
